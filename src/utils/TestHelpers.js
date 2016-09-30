@@ -6,7 +6,7 @@ import React from 'react';
 import TestUtils from 'react-addons-test-utils';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import reducers from '../app/rootReducer';
+import reducers from '../rootReducer';
 import { createStore } from 'redux';
 
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
