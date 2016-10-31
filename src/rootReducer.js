@@ -1,7 +1,10 @@
 import { combineReducers } from 'redux';
+import filtersReducer from './filters/filtersReducer';
+import shareReducer from './share/shareReducer';
 
 const rootReducer = combineReducers({
-  state: (state = {}) => state,
+  filters: filtersReducer,
+  share: shareReducer,
 });
 
 export default rootReducer;
