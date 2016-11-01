@@ -5,12 +5,14 @@ import { List } from 'material-ui/List';
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import { connect } from 'react-redux';
 
-import { closeFiltersDrawer } from './filterActions';
+import { closeFiltersDrawer, fetchFilters } from './filterActions';
 import FilterGroup from './FilterGroup';
 
 const propTypes = {
   open: PropTypes.bool,
   closeFiltersDrawer: PropTypes.func,
+  fetchFilters: PropTypes.func,
+  filters: PropTypes.array,
 };
 
 class FiltersDrawer extends Component {
@@ -19,24 +21,22 @@ class FiltersDrawer extends Component {
     this.closeDrawer = this.closeDrawer.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchFilters();
+  }
+
+
   closeDrawer() {
     this.props.closeFiltersDrawer();
   }
 
   renderFilterGroups(filters) {
     return filters.map(filter => (
-      <FilterGroup key={filter.name} name={filter.name} />
+      <FilterGroup key={filter.id} filter={filter} />
     ));
   }
 
   render() {
-    const filters = [
-      { name: 'Year' },
-      { name: 'Contribuiting Factors' },
-      { name: 'Severity' },
-      { name: 'Vehicles Involved' },
-      { name: 'Weather' },
-    ];
     return (
       <Drawer
         docked={false}
@@ -56,7 +56,7 @@ class FiltersDrawer extends Component {
           </ToolbarGroup>
         </Toolbar>
         <List>
-          {this.renderFilterGroups(filters)}
+          {this.renderFilterGroups(this.props.filters)}
         </List>
       </Drawer>
     );
@@ -68,10 +68,11 @@ FiltersDrawer.propTypes = propTypes;
 function mapStateToProps(state) {
   return {
     open: state.filters.drawerOpen,
+    filters: state.filters.all,
   };
 }
 
 export default connect(
   mapStateToProps,
-  { closeFiltersDrawer }
+  { closeFiltersDrawer, fetchFilters }
 )(FiltersDrawer);
