@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Drawer from 'material-ui/Drawer';
 import FontIcon from 'material-ui/FontIcon';
-import { List } from 'material-ui/List';
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
 import { connect } from 'react-redux';
 
@@ -40,7 +39,7 @@ class FiltersDrawer extends Component {
     return (
       <Drawer
         docked={false}
-        width={400}
+        width={350}
         open={this.props.open}
         onRequestChange={this.closeDrawer}
       >
@@ -55,9 +54,7 @@ class FiltersDrawer extends Component {
             <FontIcon className="material-icons">help</FontIcon>
           </ToolbarGroup>
         </Toolbar>
-        <List>
-          {this.renderFilterGroups(this.props.filters)}
-        </List>
+        {this.renderFilterGroups(this.props.filters)}
       </Drawer>
     );
   }

@@ -1,62 +1,85 @@
 import React, { Component, PropTypes } from 'react';
+import Collapse from 'react-collapse';
 import { connect } from 'react-redux';
-import { ListItem } from 'material-ui/List';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
+import Avatar from 'material-ui/Avatar';
+import FontIcon from 'material-ui/FontIcon';
 
-import { selectFilter } from './filterActions';
+import { currentFilterSelector } from './filterSelectors';
+import { toggleFilterGroup } from './filterActions';
+import FilterOptions from './FilterOptions';
 
 const propTypes = {
+  currentFilter: PropTypes.object,
   filter: PropTypes.shape({
     id: PropTypes.string,
     longName: PropTypes.string,
     shortName: PropTypes.string,
-    options: PropTypes.arrayOf(
-      PropTypes.shape({
-        value: PropTypes.string,
-        name: PropTypes.string,
-      })
-    ),
+    icon: PropTypes.string,
+    isOpened: PropTypes.bool,
+    options: PropTypes.array,
   }),
-  selectFilter: PropTypes.func,
+  toggleFilterGroup: PropTypes.func,
 };
 
 class FilterGroup extends Component {
 
   constructor(props) {
     super(props);
-    this.handleFilterSelect = this.handleFilterSelect.bind(this);
+    this.handleFilterExpand = this.handleFilterExpand.bind(this);
+    this.displaySubtitle = this.displaySubtitle.bind(this);
   }
 
-  handleFilterSelect(event, value) {
-    this.props.selectFilter({ id: this.props.filter.id, value });
+  displaySubtitle() {
+    if (this.props.currentFilter) {
+      return this.props.currentFilter.selectedOption.name;
+    }
+    return this.props.filter.shortName;
   }
 
-  renderOptions(options) {
-    return options.map(option => (
-      <RadioButton key={option.value} label={option.name} value={option.value} />
-    ));
+  handleFilterExpand(expanded) {
+    this.props.toggleFilterGroup(this.props.filter.id, expanded);
   }
 
   render() {
     if (!this.props.filter) return null;
-    const { options, longName } = this.props.filter;
+    const { options, longName, icon, id } = this.props.filter;
     return (
-      <ListItem
-        primaryText={longName}
-        primaryTogglesNestedList
-        nestedItems={[
-          <RadioButtonGroup onChange={this.handleFilterSelect} key="1" name="year">
-            {this.renderOptions(options)}
-          </RadioButtonGroup>,
-        ]}
-      />
+      <Card
+        expanded={this.props.filter.isOpened}
+        onExpandChange={this.handleFilterExpand}
+      >
+        <CardHeader
+          avatar={
+            <Avatar
+              size={35}
+              icon={<FontIcon className="material-icons">{icon}</FontIcon>}
+            />
+          }
+          subtitle={this.displaySubtitle()}
+          title={longName}
+          actAsExpander
+          showExpandableButton
+        />
+        <Collapse isOpened={this.props.filter.isOpened} >
+          <CardText expandable>
+            <FilterOptions filterId={id} options={options} />
+          </CardText>
+        </Collapse>
+      </Card>
     );
   }
 }
 
 FilterGroup.propTypes = propTypes;
 
+function mapStateToProps(state, props) {
+  return {
+    currentFilter: currentFilterSelector(props.filter.id)(state),
+  };
+}
+
 export default connect(
-  null,
-  { selectFilter }
+  mapStateToProps,
+  { toggleFilterGroup }
 )(FilterGroup);

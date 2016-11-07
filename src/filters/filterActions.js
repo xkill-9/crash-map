@@ -4,6 +4,8 @@ import {
   FETCH_FILTERS,
   SELECT_FILTER,
   REMOVE_FILTER,
+  TOGGLE_FILTER_GROUP,
+  GET_SELECTED_OPTION,
 } from './filterActionTypes';
 
 export function openFiltersDrawer() {
@@ -37,6 +39,8 @@ export function fetchFilters() {
         id: 'year',
         shortName: 'Year',
         longName: 'Year',
+        isOpened: false,
+        icon: 'today',
         options: [
           {
             value: '2012',
@@ -44,7 +48,7 @@ export function fetchFilters() {
           },
           {
             value: '2013',
-            name: '2014',
+            name: '2013',
           },
           {
             value: '2014',
@@ -59,7 +63,9 @@ export function fetchFilters() {
       {
         id: 'factors',
         shortName: 'C.F',
+        isOpened: false,
         longName: 'Contributing Factors',
+        icon: 'assessment',
         options: [
           {
             value: 'none',
@@ -107,6 +113,8 @@ export function fetchFilters() {
         id: 'severity',
         shortName: 'Severity',
         longName: 'Severity',
+        isOpened: false,
+        icon: 'warning',
         options: [
           {
             value: 'none',
@@ -134,6 +142,8 @@ export function fetchFilters() {
         id: 'vehicle',
         shortName: 'V.I',
         longName: 'Vehicle',
+        isOpened: false,
+        icon: 'local_shipping',
         options: [
           {
             value: 'none',
@@ -185,6 +195,8 @@ export function fetchFilters() {
         id: 'weather',
         shortName: 'Weather',
         longName: 'Weather',
+        isOpened: false,
+        icon: 'beach_access',
         options: [
           {
             value: 'none',
@@ -241,6 +253,29 @@ export function selectFilter(filter) {
 export function deleteFilter(filterId) {
   return {
     type: REMOVE_FILTER,
+    payload: filterId,
+  };
+}
+
+/**
+ * Action for toggling a filter group.
+ * @param {string} id - The id of the filter group to be toggled.
+ * @param {boolean} isOpened - Whether the filter group is opened or not.
+ */
+export function toggleFilterGroup(id, isOpened) {
+  return {
+    type: TOGGLE_FILTER_GROUP,
+    payload: { id, isOpened },
+  };
+}
+
+/**
+ * Action for retrieving the selected option of a given filter.
+ * @param {string} filterId - Id of the filter.
+ */
+export function getSelectedOption(filterId) {
+  return {
+    type: GET_SELECTED_OPTION,
     payload: filterId,
   };
 }

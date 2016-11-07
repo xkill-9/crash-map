@@ -4,6 +4,7 @@ import {
   FETCH_FILTERS,
   SELECT_FILTER,
   REMOVE_FILTER,
+  TOGGLE_FILTER_GROUP,
 } from './filterActionTypes';
 import omit from 'lodash/omit';
 
@@ -24,7 +25,20 @@ export default function filtersReducer(state = initialState, action) {
     case SELECT_FILTER:
       return {
         ...state,
-        selected: { ...state.selected, [action.payload.id]: action.payload.value },
+        selected: {
+          ...state.selected,
+          [action.payload.id]: action.payload.value,
+        },
+      };
+    case TOGGLE_FILTER_GROUP:
+      return {
+        ...state,
+        all: state.all.map((filter) => {
+          if (filter.id === action.payload.id) {
+            return { ...filter, isOpened: action.payload.isOpened };
+          }
+          return { ...filter, isOpened: false };
+        }),
       };
     case REMOVE_FILTER:
       return {

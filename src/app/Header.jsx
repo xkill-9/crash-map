@@ -1,10 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { openFiltersDrawer } from '../filters/filterActions';
-import { openShareDrawer } from '../share/shareActions';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import ShareIcon from 'material-ui/svg-icons/social/share';
+import LinearProgress from 'material-ui/LinearProgress';
+
+import { openFiltersDrawer } from '../filters/filterActions';
+import { openShareDrawer } from '../share/shareActions';
 
 const propTypes = {
   openFiltersDrawer: PropTypes.func,
@@ -32,19 +34,22 @@ class Header extends Component {
 
   render() {
     return (
-      <AppBar
-        style={styles}
-        iconElementRight={
-          <FlatButton
-            label="Share"
-            labelPosition="before"
-            icon={<ShareIcon />}
-          />
-        }
-        onLeftIconButtonTouchTap={this.handleLeftIconTouchTap}
-        onRightIconButtonTouchTap={this.handleRightIconTouchTap}
-        title="Houston Crash Map"
-      />
+      <div className="header">
+        <AppBar
+          style={styles}
+          iconElementRight={
+            <FlatButton
+              label="Share"
+              labelPosition="before"
+              icon={<ShareIcon />}
+            />
+          }
+          onLeftIconButtonTouchTap={this.handleLeftIconTouchTap}
+          onRightIconButtonTouchTap={this.handleRightIconTouchTap}
+          title="Houston Crash Map"
+        />
+        <LinearProgress mode="indeterminate" />
+      </div>
     );
   }
 }
