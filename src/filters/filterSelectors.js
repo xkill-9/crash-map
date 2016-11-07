@@ -1,32 +1,39 @@
 import { createSelector } from 'reselect';
 import filter from 'lodash/filter';
 import has from 'lodash/has';
-import pick from 'lodash/pick';
 
-// [ {id, options} ]
 const filterGroupSelector = state => state.filters.all;
-// { [id]: value }
 const selectedFilterIds = state => state.filters.selected;
 
 const getFilters = (filterGroups, selectedIds) => {
   const selectedFilterGroups = filter(
     filterGroups,
     group => has(selectedIds, group.id));
-  return selectedFilterGroups.map((group) => {
-    const selectedOption = group.options.find(
-      option => option.value === selectedIds[group.id]
-    );
-    return { ...pick(group, ['id', 'icon', 'longName']), selectedOption };
-  });
+  return selectedFilterGroups.map((group) => (
+    {
+      id: group.id,
+      icon: group.icon,
+      longName: group.longName,
+      selectedOption: group.options.find(option => option.value === selectedIds[group.id]),
+    }
+  ));
 };
 
+/**
+ * Returns a formatted list of the filter groups that have a selected option.
+ */
 export const selectedFiltersSelector = createSelector(
   filterGroupSelector,
   selectedFilterIds,
   getFilters
 );
 
-export const currentFilterSelector = (filterId) => createSelector(
-    selectedFiltersSelector,
-    filters => filters.find(item => item.id === filterId)
+/**
+ * Returns the selected option object of a given filter group.
+ * @param {string} filterId - Id of the filter group.
+ */
+export const selectedOptionSelector = (filterId) => createSelector(
+    state => state.filters.all.find(group => group.id === filterId),
+    selectedFilterIds,
+    (group, filters) => group.options.find(option => option.value === filters[group.id])
 );

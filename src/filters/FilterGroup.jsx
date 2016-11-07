@@ -5,12 +5,12 @@ import { Card, CardHeader, CardText } from 'material-ui/Card';
 import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 
-import { currentFilterSelector } from './filterSelectors';
+import { selectedOptionSelector } from './filterSelectors';
 import { toggleFilterGroup } from './filterActions';
 import FilterOptions from './FilterOptions';
 
 const propTypes = {
-  currentFilter: PropTypes.object,
+  selectedOption: PropTypes.object,
   filter: PropTypes.shape({
     id: PropTypes.string,
     longName: PropTypes.string,
@@ -31,8 +31,8 @@ class FilterGroup extends Component {
   }
 
   displaySubtitle() {
-    if (this.props.currentFilter) {
-      return this.props.currentFilter.selectedOption.name;
+    if (this.props.selectedOption) {
+      return this.props.selectedOption.name;
     }
     return this.props.filter.shortName;
   }
@@ -75,7 +75,7 @@ FilterGroup.propTypes = propTypes;
 
 function mapStateToProps(state, props) {
   return {
-    currentFilter: currentFilterSelector(props.filter.id)(state),
+    selectedOption: selectedOptionSelector(props.filter.id)(state),
   };
 }
 
