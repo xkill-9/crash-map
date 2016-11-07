@@ -5,17 +5,27 @@ import {
   SELECT_FILTER,
   REMOVE_FILTER,
   TOGGLE_FILTER_GROUP,
+  SHOW_ACTIVE_FILTERS,
+  HIDE_ACTIVE_FILTERS,
+  TOGGLE_ACTIVE_FILTERS,
 } from './filterActionTypes';
 import omit from 'lodash/omit';
 
 const initialState = {
   drawerOpen: false,
+  showActiveFilters: false,
   all: [],
   selected: {},
 };
 
 export default function filtersReducer(state = initialState, action) {
   switch (action.type) {
+    case TOGGLE_ACTIVE_FILTERS:
+      return { ...state, showActiveFilters: action.payload };
+    case SHOW_ACTIVE_FILTERS:
+      return { ...state, showActiveFilters: true };
+    case HIDE_ACTIVE_FILTERS:
+      return { ...state, showActiveFilters: false };
     case OPEN_FILTERS_DRAWER:
       return { ...state, drawerOpen: true };
     case CLOSE_FILTERS_DRAWER:

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
 import ShareIcon from 'material-ui/svg-icons/social/share';
-import LinearProgress from 'material-ui/LinearProgress';
 
 import { openFiltersDrawer } from '../filters/filterActions';
 import { openShareDrawer } from '../share/shareActions';
@@ -48,7 +47,6 @@ class Header extends Component {
           onRightIconButtonTouchTap={this.handleRightIconTouchTap}
           title="Houston Crash Map"
         />
-        <LinearProgress mode="indeterminate" />
       </div>
     );
   }

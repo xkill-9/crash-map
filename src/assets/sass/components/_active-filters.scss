@@ -1,0 +1,29 @@
+.active-filters__panel {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  align-items: center;
+  background-color: #fff;
+  padding: 10px;
+  padding-right: 180px;
+}
+
+.active-filters__list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.active-filters__label {
+  font-weight: 300;
+  color: #333;
+  display: inline-block;
+  margin:13px 5px;
+}
+
+.active-filters__checkbox {
+  position: absolute;
+  top: 88px;
+  right: 0px;
+  width: 190px;
+}

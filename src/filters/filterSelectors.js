@@ -13,7 +13,7 @@ const getFilters = (filterGroups, selectedIds) => {
     {
       id: group.id,
       icon: group.icon,
-      longName: group.longName,
+      name: group.longName,
       selectedOption: group.options.find(option => option.value === selectedIds[group.id]),
     }
   ));

@@ -6,11 +6,12 @@ import Avatar from 'material-ui/Avatar';
 import FontIcon from 'material-ui/FontIcon';
 
 import { selectedOptionSelector } from './filterSelectors';
-import { toggleFilterGroup } from './filterActions';
+import { toggleFilterGroup, selectFilter } from './filterActions';
 import FilterOptions from './FilterOptions';
 
 const propTypes = {
   selectedOption: PropTypes.object,
+  selectFilter: PropTypes.func,
   filter: PropTypes.shape({
     id: PropTypes.string,
     longName: PropTypes.string,
@@ -30,11 +31,20 @@ class FilterGroup extends Component {
     this.displaySubtitle = this.displaySubtitle.bind(this);
   }
 
+  componentDidMount() {
+    if (!this.props.selectedOption) {
+      this.props.selectFilter({
+        id: this.props.filter.id,
+        value: this.props.filter.options[0].value,
+      });
+    }
+  }
+
   displaySubtitle() {
     if (this.props.selectedOption) {
       return this.props.selectedOption.name;
     }
-    return this.props.filter.shortName;
+    return '';
   }
 
   handleFilterExpand(expanded) {
@@ -81,5 +91,5 @@ function mapStateToProps(state, props) {
 
 export default connect(
   mapStateToProps,
-  { toggleFilterGroup }
+  { toggleFilterGroup, selectFilter }
 )(FilterGroup);

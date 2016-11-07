@@ -6,6 +6,9 @@ import {
   REMOVE_FILTER,
   TOGGLE_FILTER_GROUP,
   GET_SELECTED_OPTION,
+  SHOW_ACTIVE_FILTERS,
+  HIDE_ACTIVE_FILTERS,
+  TOGGLE_ACTIVE_FILTERS,
 } from './filterActionTypes';
 
 export function openFiltersDrawer() {
@@ -17,6 +20,25 @@ export function openFiltersDrawer() {
 export function closeFiltersDrawer() {
   return {
     type: CLOSE_FILTERS_DRAWER,
+  };
+}
+
+export function showActiveFilters() {
+  return {
+    type: SHOW_ACTIVE_FILTERS,
+  };
+}
+
+export function hideActiveFilters() {
+  return {
+    type: HIDE_ACTIVE_FILTERS,
+  };
+}
+
+export function toggleActiveFilters(isVisible) {
+  return {
+    type: TOGGLE_ACTIVE_FILTERS,
+    payload: isVisible,
   };
 }
 
@@ -250,7 +272,7 @@ export function selectFilter(filter) {
  * Dispatches a REMOVE_FILTER action with the id of the filter to be deleted..
  * @param {string} filterId - Id of the filter to be deleted.
  */
-export function deleteFilter(filterId) {
+export function removeFilter(filterId) {
   return {
     type: REMOVE_FILTER,
     payload: filterId,
